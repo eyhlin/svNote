@@ -9,6 +9,20 @@ var usersRouter = require('./routes/users');
 
 var app = express();
 
+// connect to database
+var mongoose = require('mongoose')
+mongoose.connect('mongodb://127.0.0.1:27017/svnote', { useMongoClient: true})
+.then(()=> { console.log(`Succesfully Connected to the Database`)})
+.catch(()=> { console.log(`Error Connecting to the Database`)})
+
+// access for angular
+app.use(function(req, res, next) {
+  res.header("Access-Control-Allow-Origin", "http://localhost:4200");
+  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+  res.header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
+  next();
+});
+
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
